@@ -90,6 +90,16 @@ public class CineClient extends GenericURL implements Serializable {
         }
         return 0;
     }
+    
+    public Cine findById(Integer id){
+        try {
+            WebTarget target = cliente.target(UrlResource).path("{idCine}").resolveTemplate("idCine", id);
+            Cine salida = target.request(MediaType.APPLICATION_JSON).get(Cine.class);
+        } catch (Exception e) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
+        }
+        return null;
+    }
 
     public Cine crearRegistro() {
         if (cineEntity != null && cineEntity.getNombre() != null )  {
