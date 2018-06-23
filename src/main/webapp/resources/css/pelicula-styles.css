@@ -1,0 +1,53 @@
+div#panel-central{
+	margin: 0 auto;
+	width: 85%;
+	height: 800px;
+	border-radius: 4px;
+	border: 1px solid black;
+}
+
+div#peli-descripcion{
+	width: 100%;
+	height: 300px;
+	border: 1px solid black;
+}
+
+div#entradas{
+	width: 100%;
+	height: 550px;
+	border: 1px solid black;
+	margin-top: 10px;
+}
+
+div#titulo-peli{
+	width: 100%;
+	height: 30px;
+	margin: 0 0;
+}
+
+div#contenido-peli{
+	width: 100%;
+	height: 270px;
+	/*background-color: blue;*/
+}
+
+.imagen-peli{
+	float: left;
+	width: 25%;
+	height: 270px;
+	/*background-color: blue;*/
+}
+
+.descripcion-peli{
+	float: right;
+	width: 75%;
+	height: 270px;
+	/*background-color: red;*/
+}
+
+.img-peli-desc{
+	margin: 20px auto;
+	display:block;
+	width: 70px;
+	width: 150px;
+}

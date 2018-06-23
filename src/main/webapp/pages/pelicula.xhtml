@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="es"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+        <meta name="keywords" content="" />
+        <meta name="description" content="" />
+    </h:head>
+    <h:body>
+
+        <ui:composition template="../templates/main_template.xhtml">
+            <ui:define name="content">
+
+                <link href="http://fonts.googleapis.com/css?family=Varela" rel="stylesheet" />
+                <link href="../resources/css/cartelera-styles.css" rel="stylesheet" type="text/css" media="all" />
+                <link href="../resources/css/pelicula-styles.css" rel="stylesheet" type="text/css" media="all" />
+                <link href="../resources/css/fonts.css" rel="stylesheet" type="text/css" media="all" />
+
+                <div id="ideas">
+                    <div class="container">
+                        <div id="panel-central">
+                            <div id="peli-descripcion">
+                                <div id="titulo-peli">
+                                    <h2 style="color: rgb(0,9,124, 0.9);">COMPRA Y RESERVA TUS BOLETOS</h2>
+                                </div>
+                                <div id="contenido-peli">
+                                    <div class="imagen-peli">
+                                        <img class="img-peli-desc" src="../resources/img/avengers.jpg" />
+                                    </div>
+                                    <div class="descripcion-peli">
+                                        <label class="sub-titulos" for="cine">CINE</label>
+                                        <label class="sub-titulos" id="cine">Santa Ana</label>
+                                        <br/>
+                                        <label class="sub-titulos" for="pelicula">PELICULA</label>
+                                        <label class="sub-titulos" id="pelicula">Los Increibles 2</label>
+                                        <br/>
+                                        <label class="sub-titulos" for="fecha">FECHA</label>
+                                        <label class="sub-titulos" id="fecha">MARTES 19 DE JUNIO</label>
+                                        <br/>
+                                        <label class="sub-titulos" for="funcion">FUNCIÓN</label>
+                                        <label class="sub-titulos" id="funcion">11:00PM</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="entradas"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </ui:define>
+        </ui:composition>
+
+    </h:body>
+</html>
