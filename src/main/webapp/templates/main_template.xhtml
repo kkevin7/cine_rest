@@ -29,9 +29,11 @@
                         <div id="header" class="container">
                             <div id="logo">
                                 <h1><p:link outcome="/index.jsf" value="CINEPOLIS"></p:link></h1>
-                                <p:selectOneMenu id="ubicaciones" value="#{cineclient.cineEntity.idCine}" effect="fold" converter="omnifaces.SelectItemsConverter">
-                                    <f:selectItems  value="#{cineclient.findAll()}" var="id" itemLabel="#{id.nombre}" itemValue="#{id}"/>
+                                <p:selectOneMenu id="ubicaciones" value="#{cineclient.cineEntity}" effect="fold" converter="omnifaces.SelectItemsConverter">
+                                    <f:selectItem itemLabel="Seleccione un cine" itemValue="0" />
+                                    <f:selectItems  value="#{cineclient.findAll()}" var="id" itemLabel="#{id.nombre}" itemValue="#{id.id}"/>
                                 </p:selectOneMenu>
+                                
                             </div>
                             <div id="menu">
                                 <ul>

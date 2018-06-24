@@ -1,3 +1,4 @@
+
 package ues.proto.cinepolis.rest;
 
 import java.io.Serializable;
@@ -14,34 +15,31 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
-import ues.proto.cinepolis.definiciones.RestCine;
+import ues.proto.cinepolis.definiciones.RestGenero;
+import static ues.proto.cinepolis.rest.GenericURL.BASE_URI;
 
-@Named(value = "cineclient")
+@Named(value = "generoclient")
 @ViewScoped
-public class CineClient extends GenericURL implements Serializable {
+public class GeneroClient extends GenericURL implements Serializable{
 
-    private final static String UrlResource = BASE_URI + "cine";
+    private final static String UrlResource = BASE_URI + "genero";
     private Client cliente;
-    private RestCine cineEntity;
+    private RestGenero generoEntity;
     
     /*--- LLENAR UNA TABLA A UTILIZAR --*/
-    List<RestCine> listaCine;
-
-    public CineClient() {
+    List<RestGenero> listaGenero;
+    
+    public GeneroClient() {
         try {
             cliente = ClientBuilder.newClient();
         } catch (Exception e) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
         }
     }
-
-    /**
-     * Este metodo sirve sirve para que se inicie todo despues de cargar los
-     * form.
-     */
+    
     @PostConstruct
     public void init() {
-        this.cineEntity = new RestCine();
+        this.generoEntity = new RestGenero();
         //findAll();
         llenarTabla();
     }
@@ -49,10 +47,10 @@ public class CineClient extends GenericURL implements Serializable {
     public void llenarTabla() {
         //reset(); DEBERIA POR VOLVER A LLENAR
         try {
-            listaCine = cliente
+            listaGenero = cliente
                     .target(UrlResource)
                     .request(MediaType.APPLICATION_JSON)
-                    .get(new GenericType<List<RestCine>>() {
+                    .get(new GenericType<List<RestGenero>>() {
                     });
         } catch (Exception e) {
             System.err.println("No se puede llenar la tabla revisa ---------------------*****-------");
@@ -64,11 +62,11 @@ public class CineClient extends GenericURL implements Serializable {
      * Este metodo sirve para llenar la lista que se ocupara en la vista.
      */
     @Deprecated
-    public List<RestCine> findAll() {
-        List<RestCine> salida = null;
+    public List<RestGenero> findAll() {
+        List<RestGenero> salida = null;
         try {
             WebTarget target = cliente.target(UrlResource);
-            salida = target.request(MediaType.APPLICATION_JSON).get(new GenericType<List<RestCine>>() {
+            salida = target.request(MediaType.APPLICATION_JSON).get(new GenericType<List<RestGenero>>() {
             });
         } catch (Exception e) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
@@ -80,12 +78,12 @@ public class CineClient extends GenericURL implements Serializable {
         return salida;
     }
 
-    public List<RestCine> findRange(int first, int pageSize) {
-        List<RestCine> salida = null;
+    public List<RestGenero> findRange(int first, int pageSize) {
+        List<RestGenero> salida = null;
         try {
             WebTarget target = cliente.target(UrlResource).queryParam("first", first)
                     .queryParam("pagezise", pageSize);
-            salida = target.request(MediaType.APPLICATION_JSON).get(new GenericType<List<RestCine>>() {
+            salida = target.request(MediaType.APPLICATION_JSON).get(new GenericType<List<RestGenero>>() {
             });
         } catch (Exception e) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
@@ -108,23 +106,23 @@ public class CineClient extends GenericURL implements Serializable {
         return 0;
     }
     
-    public RestCine findById(Integer id){
+    public RestGenero findById(Integer id){
         try {
             WebTarget target = cliente.target(UrlResource).path("{idCine}").resolveTemplate("idCine", id);
-            RestCine salida = target.request(MediaType.APPLICATION_JSON).get(RestCine.class);
+            RestGenero sGalida = target.request(MediaType.APPLICATION_JSON).get(RestGenero.class);
         } catch (Exception e) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
         }
         return null;
     }
 
-    public RestCine crearRegistro() {
-        if (cineEntity != null && cineEntity.getNombre() != null )  {
+    public RestGenero crearRegistro() {
+        if (generoEntity != null && generoEntity.getNombre() != null )  {
             try {
-                RestCine salida = cliente.target(UrlResource)
+                RestGenero salida = cliente.target(UrlResource)
                         .path("crear")
                         .request(MediaType.APPLICATION_JSON)
-                        .post(Entity.entity(cineEntity, MediaType.APPLICATION_JSON), RestCine.class);
+                        .post(Entity.entity(generoEntity, MediaType.APPLICATION_JSON), RestGenero.class);
                 if (salida != null && salida.getId() != null ) {
                     return salida;
                 }
@@ -145,8 +143,6 @@ public class CineClient extends GenericURL implements Serializable {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
         }
     }
-    
-    /********* Setter and Getter **********/
 
     public Client getCliente() {
         return cliente;
@@ -156,24 +152,20 @@ public class CineClient extends GenericURL implements Serializable {
         this.cliente = cliente;
     }
 
-    public RestCine getCineEntity() {
-        return cineEntity;
+    public RestGenero getGeneroEntity() {
+        return generoEntity;
     }
 
-    public void setCineEntity(RestCine cineEntity) {
-        this.cineEntity = cineEntity;
+    public void setGeneroEntity(RestGenero generoEntity) {
+        this.generoEntity = generoEntity;
     }
 
-    public List<RestCine> getListaCine() {
-        return listaCine;
+    public List<RestGenero> getListaGenero() {
+        return listaGenero;
     }
 
-    public void setListaCine(List<RestCine> listaCine) {
-        this.listaCine = listaCine;
+    public void setListaGenero(List<RestGenero> listaGenero) {
+        this.listaGenero = listaGenero;
     }
-    
-
-    
-    
 
 }
