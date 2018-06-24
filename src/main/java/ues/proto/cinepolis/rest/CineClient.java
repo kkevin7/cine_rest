@@ -22,10 +22,15 @@ public class CineClient extends GenericURL implements Serializable {
 
     private final static String UrlResource = BASE_URI + "cine/";
     private Client cliente;
-    private RestCine cineEntity;
     
     /*--- LLENAR UNA TABLA A UTILIZAR --*/
-    List<RestCine> listaCine;
+    private RestCine cineEntity = new RestCine();
+    private List<RestCine> listaCine = new ArrayList<RestCine>();
+    private List<RestCine> listaLocalidad = new ArrayList<RestCine>();
+    RestCine cine;
+    
+    private String localidad;
+    private int idCinelocal;
 
     public CineClient() {
         try {
@@ -46,14 +51,41 @@ public class CineClient extends GenericURL implements Serializable {
         llenarTabla();
     }
     
+    public void llenarLocal(){
+        try {
+             System.out.println("/*** este es el ID del cine " + idCinelocal);
+            cine = findById(idCinelocal);
+            localidad = cine.getLocalidad();
+             System.out.println("/****--localidad del cine ***/ " + localidad);
+        } catch (Exception e) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
+        }
+    }
+    
+    /*** Llenar la una lista de la localidad del cine ***/
+    public void llenarLocalidad(Integer id){
+        try {
+            System.out.println("isadiuuidauid ******///----- IDDDDDDDDDD " + cineEntity.getId());
+            System.out.println("isadiuuidauid ******///----- IDDDDDDDDDD " + id);
+            System.out.println("isadiuuidauid ******///----- IDDDDDDDDDD variable " + idCinelocal);
+            listaLocalidad = cliente.target(UrlResource)
+                    .path("{id}").resolveTemplate("id", id)
+                    .request(MediaType.APPLICATION_JSON)
+                    .get(new GenericType<List<RestCine>>(){});
+            localidad = listaCine.get(0).getLocalidad();
+             System.out.println("isadiuuidauid ******///----- listaaa" + localidad);
+        } catch (Exception e) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
+        }
+    }
+    
+    /*** Llenar una una lista con los cine ****/
     public void llenarTabla() {
         //reset(); DEBERIA POR VOLVER A LLENAR
         try {
-            listaCine = cliente
-                    .target(UrlResource)
+            listaCine = cliente.target(UrlResource)
                     .request(MediaType.APPLICATION_JSON)
-                    .get(new GenericType<List<RestCine>>() {
-                    });
+                    .get(new GenericType<List<RestCine>>(){});
         } catch (Exception e) {
             System.err.println("No se puede llenar la tabla revisa ---------------------*****-------");
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
@@ -112,6 +144,7 @@ public class CineClient extends GenericURL implements Serializable {
         try {
             WebTarget target = cliente.target(UrlResource).path("{id}").resolveTemplate("id", id);
             RestCine salida = target.request(MediaType.APPLICATION_JSON).get(RestCine.class);
+            return salida;
         } catch (Exception e) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
         }
@@ -171,9 +204,41 @@ public class CineClient extends GenericURL implements Serializable {
     public void setListaCine(List<RestCine> listaCine) {
         this.listaCine = listaCine;
     }
+
+    public List<RestCine> getListaLocalidad() {
+        return listaLocalidad;
+    }
+
+    public void setListaLocalidad(List<RestCine> listaLocalidad) {
+        this.listaLocalidad = listaLocalidad;
+    }
+
+    public String getLocalidad() {
+        return localidad;
+    }
+
+    public void setLocalidad(String localidad) {
+        this.localidad = localidad;
+    }
+
+    public RestCine getCine() {
+        return cine;
+    }
+
+    public void setCine(RestCine cine) {
+        this.cine = cine;
+    }
+
+    public int getIdCinelocal() {
+        return idCinelocal;
+    }
+
+    public void setIdCinelocal(int idCinelocal) {
+        this.idCinelocal = idCinelocal;
+    }
+    
+    
     
 
-    
-    
 
 }

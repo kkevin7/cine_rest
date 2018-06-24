@@ -29,11 +29,16 @@
                         <div id="header" class="container">
                             <div id="logo">
                                 <h1><p:link outcome="/index.jsf" value="CINEPOLIS"></p:link></h1>
-                                <p:selectOneMenu id="ubicaciones" value="#{cineclient.cineEntity}" effect="fold" converter="omnifaces.SelectItemsConverter">
-                                    <f:selectItem itemLabel="Seleccione un cine" itemValue="0" />
-                                    <f:selectItems  value="#{cineclient.findAll()}" var="id" itemLabel="#{id.nombre}" itemValue="#{id.id}"/>
+                                <h:form id="frm-header">
+                                    <h:panelGrid columns="2">
+                                <p:selectOneMenu  value="#{cineclient.idCinelocal}" effect="fold" converter="omnifaces.SelectItemsConverter">
+                                    <f:selectItem itemLabel="Seleccione un cine" itemDisabled="true" noSelectionOption="true"/>
+                                    <f:selectItems  value="#{cineclient.listaCine}" var="id" itemLabel="#{id.nombre}" itemValue="#{id.id}" />
+                                    <p:ajax event="change" update="frm-header:txt-localidad" listener="#{cineclient.llenarLocal()}"/>
                                 </p:selectOneMenu>
-                                
+                                <p:inputText id="txt-localidad" value="#{cineclient.localidad}" ></p:inputText>
+                          </h:panelGrid>
+                                </h:form>
                             </div>
                             <div id="menu">
                                 <ul>

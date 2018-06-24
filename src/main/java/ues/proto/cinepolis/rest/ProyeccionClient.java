@@ -115,6 +115,7 @@ public class ProyeccionClient extends GenericURL implements Serializable {
         try {
             WebTarget target = cliente.target(UrlResource).path("{idProyeccion}").resolveTemplate("idProyeccion", id);
             RestProyeccion salida = target.request(MediaType.APPLICATION_JSON).get(RestProyeccion.class);
+            return salida;
         } catch (Exception e) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
         }

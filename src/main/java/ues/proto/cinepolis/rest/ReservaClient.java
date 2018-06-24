@@ -115,6 +115,7 @@ public class ReservaClient extends GenericURL implements Serializable{
         try {
             WebTarget target = cliente.target(UrlResource).path("{idReserva}").resolveTemplate("idReserva", id);
             RestReserva salida = target.request(MediaType.APPLICATION_JSON).get(RestReserva.class);
+            return salida;
         } catch (Exception e) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
         }

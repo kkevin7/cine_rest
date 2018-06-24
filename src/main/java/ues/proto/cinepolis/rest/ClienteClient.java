@@ -114,6 +114,7 @@ public class ClienteClient extends GenericURL implements Serializable {
         try {
             WebTarget target = cliente.target(UrlResource).path("{numTelefono}").resolveTemplate("numTelefono", id);
             RestCliente salida = target.request(MediaType.APPLICATION_JSON).get(RestCliente.class);
+            return salida;
         } catch (Exception e) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
         }

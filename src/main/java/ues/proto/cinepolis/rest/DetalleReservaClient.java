@@ -114,6 +114,7 @@ public class DetalleReservaClient extends GenericURL implements Serializable{
         try {
             WebTarget target = cliente.target(UrlResource).path("{id}").resolveTemplate("id", id);
             RestDetallereserva salida = target.request(MediaType.APPLICATION_JSON).get(RestDetallereserva.class);
+            return salida;
         } catch (Exception e) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
         }

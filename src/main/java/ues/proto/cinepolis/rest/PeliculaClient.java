@@ -111,6 +111,7 @@ public class PeliculaClient extends GenericURL implements Serializable {
         try {
             WebTarget target = cliente.target(UrlResource).path("{id}").resolveTemplate("id", id);
             RestPelicula salida = target.request(MediaType.APPLICATION_JSON).get(RestPelicula.class);
+            return salida;
         } catch (Exception e) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
         }
