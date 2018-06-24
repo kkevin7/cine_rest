@@ -458,8 +458,7 @@ div#peliculas{
 div#promociones{
 	float: right;
 	width: 73%;
-	height: 800px;
-	border: 1px solid grey;
+	/*border: 1px solid grey;*/
 }
 
 .cartelera{
@@ -492,13 +491,13 @@ div#dia{
 
 .imagen{
 	float: left;
-	width: 25%;
+	width: 75%;
 	height: 200px;
 	background: #C9C4B6;
 }
 .info-peli{
 	float: right;
-	width: 75%;
+	width: 25%;
 	height: 200px;
 }
 .img-peli{

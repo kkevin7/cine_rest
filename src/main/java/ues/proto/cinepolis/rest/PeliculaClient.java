@@ -23,7 +23,7 @@ import static ues.proto.cinepolis.rest.GenericURL.BASE_URI;
 @ViewScoped
 public class PeliculaClient extends GenericURL implements Serializable {
 
-    private final static String UrlResource = BASE_URI + "pelicula";
+    private final static String UrlResource = BASE_URI + "pelicula/";
     private Client cliente;
     private RestPelicula peliculaEntity;
     
@@ -109,7 +109,7 @@ public class PeliculaClient extends GenericURL implements Serializable {
     
     public RestPelicula findById(Integer id){
         try {
-            WebTarget target = cliente.target(UrlResource).path("{idCine}").resolveTemplate("idCine", id);
+            WebTarget target = cliente.target(UrlResource).path("{id}").resolveTemplate("id", id);
             RestPelicula salida = target.request(MediaType.APPLICATION_JSON).get(RestPelicula.class);
         } catch (Exception e) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);

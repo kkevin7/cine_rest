@@ -22,7 +22,7 @@ import static ues.proto.cinepolis.rest.GenericURL.BASE_URI;
 @ViewScoped
 public class GeneroClient extends GenericURL implements Serializable{
 
-    private final static String UrlResource = BASE_URI + "genero";
+    private final static String UrlResource = BASE_URI + "genero/";
     private Client cliente;
     private RestGenero generoEntity;
     
@@ -108,8 +108,8 @@ public class GeneroClient extends GenericURL implements Serializable{
     
     public RestGenero findById(Integer id){
         try {
-            WebTarget target = cliente.target(UrlResource).path("{idCine}").resolveTemplate("idCine", id);
-            RestGenero sGalida = target.request(MediaType.APPLICATION_JSON).get(RestGenero.class);
+            WebTarget target = cliente.target(UrlResource).path("{id}").resolveTemplate("id", id);
+            RestGenero salida = target.request(MediaType.APPLICATION_JSON).get(RestGenero.class);
         } catch (Exception e) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
         }

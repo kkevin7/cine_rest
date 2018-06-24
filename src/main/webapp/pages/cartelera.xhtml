@@ -38,59 +38,43 @@
                                     <h2 style="color: white;">CINEPOLIS SANTA ANA</h2>
                                 </div>
                                 <div id="peliculas">
-                                    <div id="pel1" class="cartelera">
-                                        <div class="imagen">
-                                            <img class="img-peli" src="../resources/img/increibles2.jpg" />
-                                        </div>
-                                        <div name="Los increibles 2" class="info-peli">
-                                            <label for="13:00" style="color: black;">DOBLADA</label>
+
+
+                                    <h:form> 
+                                        <p:dataScroller value="#{peliculaclient.findAll()}" var="pelicula" chunkSize="10">
+
+                                            <h:panelGrid columns="3" style="width:100%;" columnClasses="logo,detail,funcion">
+                                                <p:graphicImage class="img-peli" url="../resources/img/#{pelicula.id}.jpg" /> 
+
+                                                <p:outputPanel>
+                                                    <h:panelGrid columns="2" cellpadding="5">
+                                                        <h:outputText value="Id:" />
+                                                        <h:outputText value="#{pelicula.id}" style="font-weight: bold"/>
+
+                                                        <h:outputText value="Pelicula:" />
+                                                        <h:outputText value="#{pelicula.nombre}" style="font-weight: bold"/>
+
+                                                        <h:outputText value="Duración:" />
+                                                        <h:outputText value="#{pelicula.duracion}" style="font-weight: bold"/>
+
+                                                        <h:outputText value="Genero:" />
+                                                        <h:outputText value="#{pelicula.idGeneroid}" style="font-weight: bold"/>
+                                                    </h:panelGrid>
+                                                </p:outputPanel>
+                                                
+                                                <h:panelGrid>
+                                                <label for="13:00" style="color: black;">DOBLADA</label>
                                             <button type="button" id="13:00" onclick="window.location.href = 'pelicula.jsf'">13:00</button>
-                                        </div>
-                                    </div>
-                                    <div id="pel2" class="cartelera">
-                                        <div class="imagen">
-                                            <p:graphicImage class="img-peli" url="../resources/img/avengers.jpg" />
-                                        </div>
-                                        <div class="info-peli">
+                                            </h:panelGrid>
+                                            </h:panelGrid>
                                             
-                                            <h:form> 
-                    <p:dataScroller value="#{peliculaclient.findAll()}" var="pelicula" chunkSize="10">
-                        <f:facet name="header">
-                            Peliculas de Estreno
-                        </f:facet>
+                                            
+                                            
+                                        </p:dataScroller>
+                                    </h:form>
 
-                        <h:panelGrid columns="2" style="width:100%;" columnClasses="logo,detail">
-                            <p:graphicImage class="img-peli" url="../resources/img/avengers.jpg" /> 
 
-                            <p:outputPanel>
-                                <h:panelGrid columns="2" cellpadding="5">
-                                    <h:outputText value="Id:" />
-                                    <h:outputText value="#{pelicula.id}" style="font-weight: bold"/>
 
-                                    <h:outputText value="Pelicula:" />
-                                    <h:outputText value="#{pelicula.nombre}" style="font-weight: bold"/>
-
-                                    <h:outputText value="Duración:" />
-                                    <h:outputText value="#{pelicula.duracion}" style="font-weight: bold"/>
-                                    
-                                    <h:outputText value="Genero:" />
-                                    <h:outputText value="#{pelicula.idGeneroid}" style="font-weight: bold"/>
-                                </h:panelGrid>
-                            </p:outputPanel>
-                        </h:panelGrid>
-                    </p:dataScroller>
-                </h:form>
-
-                                        </div>
-                                    </div>
-                                    <div id="pel3" class="cartelera">
-                                        <div class="imagen">
-                                            <img class="img-peli" src="../resources/img/starwars.jpg" />
-                                        </div>
-                                        <div class="info-peli">
-
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
 
@@ -98,7 +82,7 @@
                     </div>
                 </div>
 
-                
+
 
             </ui:define>
         </ui:composition>
