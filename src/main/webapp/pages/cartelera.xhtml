@@ -41,7 +41,7 @@
 
 
                                     <h:form> 
-                                        <p:dataScroller value="#{peliculaclient.findAll()}" var="pelicula" chunkSize="10">
+                                        <p:dataScroller value="#{peliculaclient.listaPelicula}" var="pelicula" chunkSize="10">
 
                                             <h:panelGrid columns="3" style="width:100%;" columnClasses="logo,detail,funcion">
                                                 <p:graphicImage class="img-peli" url="../resources/img/#{pelicula.id}.jpg" /> 
@@ -63,8 +63,14 @@
                                                 </p:outputPanel>
                                                 
                                                 <h:panelGrid>
-                                                <label for="13:00" style="color: black;">DOBLADA</label>
-                                            <button type="button" id="13:00" onclick="window.location.href = 'pelicula.jsf'">13:00</button>
+                                                    <p:outputLabel value="DOBLADA" for="btn-funcion"/>
+                                                <!--label for="13:00" style="color: black;">DOBLADA</label>-->
+                                                <p:commandButton id="btn-funcion" value="13:00" 
+                                                               
+                                                               actionListener="#{peliculaclient.llenarPelicula(pelicula.id)}"
+                                                               onclick="window.location.href = 'pelicula.jsf'"
+                                                               />
+                                            <!--<button type="button" id="13:00" onclick="window.location.href = 'pelicula.jsf'">13:00</button>-->
                                             </h:panelGrid>
                                             </h:panelGrid>
                                             

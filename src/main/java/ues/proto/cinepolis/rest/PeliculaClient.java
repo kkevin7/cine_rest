@@ -25,10 +25,18 @@ public class PeliculaClient extends GenericURL implements Serializable {
 
     private final static String UrlResource = BASE_URI + "pelicula/";
     private Client cliente;
-    private RestPelicula peliculaEntity;
     
     /*--- LLENAR UNA TABLA A UTILIZAR --*/
-    List<RestPelicula> listaPelicula; 
+    private RestPelicula peliculaEntity = new RestPelicula();
+    private List<RestPelicula> listaPelicula = new ArrayList<RestPelicula>();
+    
+    /*--- Variables ---*/
+    private List<RestPelicula> listaUnica = new ArrayList<RestPelicula>();
+    private int idPeliculaLocal;
+    private String nombreLocal;
+    private String duracionLocal;
+    private String generoLocal;
+    
     
     public PeliculaClient() {
         try {
@@ -43,6 +51,28 @@ public class PeliculaClient extends GenericURL implements Serializable {
         this.peliculaEntity = new RestPelicula();
         //findAll();
         llenarTabla();
+        llenarListaUnica(1);
+    }
+    
+    public void llenarPelicula(int id){
+        try {
+             System.out.println("/*** este es el ID del pelicula " + id);
+            peliculaEntity = findById(id);  
+            System.out.println(">>>>>>>>>>>>>>>>>>>>>--localidad del cine ***/ " + peliculaEntity.getNombre());
+        } catch (Exception e) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
+        }
+    }
+    
+    public void llenarListaUnica(int id){
+        try {
+            peliculaEntity = findById(id);
+            idPeliculaLocal = peliculaEntity.getId();
+            nombreLocal= peliculaEntity.getNombre();
+            duracionLocal = peliculaEntity.getDuracion().toString();
+        } catch (Exception e) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
+        }
     }
     
     public void llenarTabla() {
@@ -58,6 +88,29 @@ public class PeliculaClient extends GenericURL implements Serializable {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
         }
     }
+    
+    /**
+     * Este metodo sirve para llenar la lista unica.
+     */
+    /*
+    @Deprecated
+    public List<RestPelicula> findbyUnicaLista(Integer id) {
+        System.out.println("/*** este es el ID del pelicula " + id);
+        List<RestPelicula> salida = null;
+        try {
+            WebTarget target = cliente.target(UrlResource).path("{id}").resolveTemplate("id", id);
+            salida = target.request(MediaType.APPLICATION_JSON).get(new GenericType<List<RestPelicula>>() {
+            });
+        } catch (Exception e) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
+        } finally {
+            if (this.cliente == null) {
+                salida = new ArrayList();
+            }
+        }
+        return salida;
+    }
+    */
 
     /**
      * Este metodo sirve para llenar la lista que se ocupara en la vista.
@@ -170,7 +223,46 @@ public class PeliculaClient extends GenericURL implements Serializable {
         this.listaPelicula = listaPelicula;
     }
 
-    
+    public List<RestPelicula> getListaUnica() {
+        return listaUnica;
+    }
+
+    public void setListaUnica(List<RestPelicula> listaUnica) {
+        this.listaUnica = listaUnica;
+    }
+
+    public int getIdPeliculaLocal() {
+        return idPeliculaLocal;
+    }
+
+    public void setIdPeliculaLocal(int idPeliculaLocal) {
+        this.idPeliculaLocal = idPeliculaLocal;
+    }
+
+    public String getNombreLocal() {
+        return nombreLocal;
+    }
+
+    public void setNombreLocal(String nombreLocal) {
+        this.nombreLocal = nombreLocal;
+    }
+
+    public String getDuracionLocal() {
+        return duracionLocal;
+    }
+
+    public void setDuracionLocal(String duracionLocal) {
+        this.duracionLocal = duracionLocal;
+    }
+
+    public String getGeneroLocal() {
+        return generoLocal;
+    }
+
+    public void setGeneroLocal(String generoLocal) {
+        this.generoLocal = generoLocal;
+    }
+
     
     
 }

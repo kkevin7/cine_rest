@@ -36,7 +36,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "RestCliente.findByNumTelefono", query = "SELECT r FROM RestCliente r WHERE r.numTelefono = :numTelefono")
     , @NamedQuery(name = "RestCliente.findByNombre", query = "SELECT r FROM RestCliente r WHERE r.nombre = :nombre")
     , @NamedQuery(name = "RestCliente.findByApellido", query = "SELECT r FROM RestCliente r WHERE r.apellido = :apellido")
-    , @NamedQuery(name = "RestCliente.findByFechaNacimiento", query = "SELECT r FROM RestCliente r WHERE r.fechaNacimiento = :fechaNacimiento")})
+    , @NamedQuery(name = "RestCliente.findByFechaNacimiento", query = "SELECT r FROM RestCliente r WHERE r.fechaNacimiento = :fechaNacimiento")
+    , @NamedQuery(name = "RestCliente.findByCorreo", query = "SELECT r FROM RestCliente r WHERE r.correo = :correo")})
 public class RestCliente implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -61,6 +62,11 @@ public class RestCliente implements Serializable {
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaNacimiento;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 254)
+    @Column(nullable = false, length = 254)
+    private String correo;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "numTelefonoid")
     private List<RestReserva> restReservaList;
 
@@ -71,11 +77,12 @@ public class RestCliente implements Serializable {
         this.numTelefono = numTelefono;
     }
 
-    public RestCliente(String numTelefono, String nombre, String apellido, Date fechaNacimiento) {
+    public RestCliente(String numTelefono, String nombre, String apellido, Date fechaNacimiento, String correo) {
         this.numTelefono = numTelefono;
         this.nombre = nombre;
         this.apellido = apellido;
         this.fechaNacimiento = fechaNacimiento;
+        this.correo = correo;
     }
 
     public String getNumTelefono() {
@@ -108,6 +115,14 @@ public class RestCliente implements Serializable {
 
     public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
     }
 
     @XmlTransient

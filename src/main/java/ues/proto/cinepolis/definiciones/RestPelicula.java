@@ -38,7 +38,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "RestPelicula.findById", query = "SELECT r FROM RestPelicula r WHERE r.id = :id")
     , @NamedQuery(name = "RestPelicula.findByNombre", query = "SELECT r FROM RestPelicula r WHERE r.nombre = :nombre")
     , @NamedQuery(name = "RestPelicula.findByDescripcion", query = "SELECT r FROM RestPelicula r WHERE r.descripcion = :descripcion")
-    , @NamedQuery(name = "RestPelicula.findByClasificacion", query = "SELECT r FROM RestPelicula r WHERE r.clasificacion = :clasificacion")})
+    , @NamedQuery(name = "RestPelicula.findByClasificacion", query = "SELECT r FROM RestPelicula r WHERE r.clasificacion = :clasificacion")
+    , @NamedQuery(name = "RestPelicula.findByPortada", query = "SELECT r FROM RestPelicula r WHERE r.portada = :portada")})
 public class RestPelicula implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -67,6 +68,11 @@ public class RestPelicula implements Serializable {
     @Size(min = 1, max = 10)
     @Column(nullable = false, length = 10)
     private String clasificacion;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 100)
+    @Column(nullable = false, length = 100)
+    private String portada;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idPeliculaid")
     private List<RestProyeccion> restProyeccionList;
     @JoinColumn(name = "idGenero_id", referencedColumnName = "id", nullable = false)
@@ -80,12 +86,13 @@ public class RestPelicula implements Serializable {
         this.id = id;
     }
 
-    public RestPelicula(Integer id, String nombre, Object duracion, String descripcion, String clasificacion) {
+    public RestPelicula(Integer id, String nombre, Object duracion, String descripcion, String clasificacion, String portada) {
         this.id = id;
         this.nombre = nombre;
         this.duracion = duracion;
         this.descripcion = descripcion;
         this.clasificacion = clasificacion;
+        this.portada = portada;
     }
 
     public Integer getId() {
@@ -126,6 +133,14 @@ public class RestPelicula implements Serializable {
 
     public void setClasificacion(String clasificacion) {
         this.clasificacion = clasificacion;
+    }
+
+    public String getPortada() {
+        return portada;
+    }
+
+    public void setPortada(String portada) {
+        this.portada = portada;
     }
 
     @XmlTransient

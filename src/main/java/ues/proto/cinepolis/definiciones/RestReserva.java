@@ -6,9 +6,7 @@
 package ues.proto.cinepolis.definiciones;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,12 +16,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -35,7 +31,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "RestReserva.findAll", query = "SELECT r FROM RestReserva r")
     , @NamedQuery(name = "RestReserva.findByIdReserva", query = "SELECT r FROM RestReserva r WHERE r.idReserva = :idReserva")
-    , @NamedQuery(name = "RestReserva.findByEstado", query = "SELECT r FROM RestReserva r WHERE r.estado = :estado")})
+    , @NamedQuery(name = "RestReserva.findByEstado", query = "SELECT r FROM RestReserva r WHERE r.estado = :estado")
+    , @NamedQuery(name = "RestReserva.findByColumna", query = "SELECT r FROM RestReserva r WHERE r.columna = :columna")
+    , @NamedQuery(name = "RestReserva.findByFila", query = "SELECT r FROM RestReserva r WHERE r.fila = :fila")})
 public class RestReserva implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -49,14 +47,20 @@ public class RestReserva implements Serializable {
     @Size(min = 1, max = 10)
     @Column(nullable = false, length = 10)
     private String estado;
+    @Basic(optional = false)
+    @NotNull
+    @Column(nullable = false)
+    private int columna;
+    @Basic(optional = false)
+    @NotNull
+    @Column(nullable = false)
+    private int fila;
     @JoinColumn(name = "numTelefono_id", referencedColumnName = "numTelefono", nullable = false)
     @ManyToOne(optional = false)
     private RestCliente numTelefonoid;
     @JoinColumn(name = "idProyeccion_id", referencedColumnName = "idProyeccion", nullable = false)
     @ManyToOne(optional = false)
     private RestProyeccion idProyeccionid;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idReservaid")
-    private List<RestDetallereserva> restDetallereservaList;
 
     public RestReserva() {
     }
@@ -65,9 +69,11 @@ public class RestReserva implements Serializable {
         this.idReserva = idReserva;
     }
 
-    public RestReserva(Integer idReserva, String estado) {
+    public RestReserva(Integer idReserva, String estado, int columna, int fila) {
         this.idReserva = idReserva;
         this.estado = estado;
+        this.columna = columna;
+        this.fila = fila;
     }
 
     public Integer getIdReserva() {
@@ -86,6 +92,22 @@ public class RestReserva implements Serializable {
         this.estado = estado;
     }
 
+    public int getColumna() {
+        return columna;
+    }
+
+    public void setColumna(int columna) {
+        this.columna = columna;
+    }
+
+    public int getFila() {
+        return fila;
+    }
+
+    public void setFila(int fila) {
+        this.fila = fila;
+    }
+
     public RestCliente getNumTelefonoid() {
         return numTelefonoid;
     }
@@ -100,15 +122,6 @@ public class RestReserva implements Serializable {
 
     public void setIdProyeccionid(RestProyeccion idProyeccionid) {
         this.idProyeccionid = idProyeccionid;
-    }
-
-    @XmlTransient
-    public List<RestDetallereserva> getRestDetallereservaList() {
-        return restDetallereservaList;
-    }
-
-    public void setRestDetallereservaList(List<RestDetallereserva> restDetallereservaList) {
-        this.restDetallereservaList = restDetallereservaList;
     }
 
     @Override

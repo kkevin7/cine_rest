@@ -347,10 +347,10 @@
 	{
 		overflow: hidden;
 		padding: 7em 0em 5em 0em;
-		background: #fffff;
+		/*background: #fffff;*/
 		background-size: cover;
 		text-align: center;
-		color: rgba(255,255,255,.8);
+		/*color: rgba(255,255,255,.8);*/
 	}
 
 	#banner .title

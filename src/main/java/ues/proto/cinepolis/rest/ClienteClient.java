@@ -122,10 +122,14 @@ public class ClienteClient extends GenericURL implements Serializable {
     }
 
     public RestCliente crearRegistro() {
+        System.out.println("nombre cliente: "+clienteEntity.getNombre());
+        System.out.println("apellido cliente: "+clienteEntity.getApellido());
+        System.out.println("numero cliente: "+clienteEntity.getNumTelefono());
+        System.out.println("correo cliente: "+clienteEntity.getCorreo());
+        System.out.println("fecha cliente: "+clienteEntity.getFechaNacimiento());
         if (clienteEntity != null && clienteEntity.getNombre() != null )  {
             try {
                 RestCliente salida = cliente.target(UrlResource)
-                        .path("crear")
                         .request(MediaType.APPLICATION_JSON)
                         .post(Entity.entity(clienteEntity, MediaType.APPLICATION_JSON), RestCliente.class);
                 if (salida != null && salida.getNumTelefono() != null ) {
@@ -147,6 +151,30 @@ public class ClienteClient extends GenericURL implements Serializable {
         } catch (Exception e) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
         }
+    }
+
+    public Client getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Client cliente) {
+        this.cliente = cliente;
+    }
+
+    public RestCliente getClienteEntity() {
+        return clienteEntity;
+    }
+
+    public void setClienteEntity(RestCliente clienteEntity) {
+        this.clienteEntity = clienteEntity;
+    }
+
+    public List<RestCliente> getLista() {
+        return lista;
+    }
+
+    public void setLista(List<RestCliente> lista) {
+        this.lista = lista;
     }
     
     

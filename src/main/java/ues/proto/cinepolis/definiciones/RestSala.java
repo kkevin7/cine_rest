@@ -21,7 +21,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -36,10 +35,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "RestSala.findAll", query = "SELECT r FROM RestSala r")
     , @NamedQuery(name = "RestSala.findById", query = "SELECT r FROM RestSala r WHERE r.id = :id")
     , @NamedQuery(name = "RestSala.findByNumSala", query = "SELECT r FROM RestSala r WHERE r.numSala = :numSala")
-    , @NamedQuery(name = "RestSala.findByCapacidad", query = "SELECT r FROM RestSala r WHERE r.capacidad = :capacidad")
     , @NamedQuery(name = "RestSala.findByFilas", query = "SELECT r FROM RestSala r WHERE r.filas = :filas")
-    , @NamedQuery(name = "RestSala.findByColumnas", query = "SELECT r FROM RestSala r WHERE r.columnas = :columnas")
-    , @NamedQuery(name = "RestSala.findByTipoSilla", query = "SELECT r FROM RestSala r WHERE r.tipoSilla = :tipoSilla")})
+    , @NamedQuery(name = "RestSala.findByColumnas", query = "SELECT r FROM RestSala r WHERE r.columnas = :columnas")})
 public class RestSala implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -55,20 +52,11 @@ public class RestSala implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(nullable = false)
-    private int capacidad;
-    @Basic(optional = false)
-    @NotNull
-    @Column(nullable = false)
     private int filas;
     @Basic(optional = false)
     @NotNull
     @Column(nullable = false)
     private int columnas;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 2147483647)
-    @Column(nullable = false, length = 2147483647)
-    private String tipoSilla;
     @JoinColumn(name = "idCine_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private RestCine idCineid;
@@ -82,13 +70,11 @@ public class RestSala implements Serializable {
         this.id = id;
     }
 
-    public RestSala(Integer id, int numSala, int capacidad, int filas, int columnas, String tipoSilla) {
+    public RestSala(Integer id, int numSala, int filas, int columnas) {
         this.id = id;
         this.numSala = numSala;
-        this.capacidad = capacidad;
         this.filas = filas;
         this.columnas = columnas;
-        this.tipoSilla = tipoSilla;
     }
 
     public Integer getId() {
@@ -107,14 +93,6 @@ public class RestSala implements Serializable {
         this.numSala = numSala;
     }
 
-    public int getCapacidad() {
-        return capacidad;
-    }
-
-    public void setCapacidad(int capacidad) {
-        this.capacidad = capacidad;
-    }
-
     public int getFilas() {
         return filas;
     }
@@ -129,14 +107,6 @@ public class RestSala implements Serializable {
 
     public void setColumnas(int columnas) {
         this.columnas = columnas;
-    }
-
-    public String getTipoSilla() {
-        return tipoSilla;
-    }
-
-    public void setTipoSilla(String tipoSilla) {
-        this.tipoSilla = tipoSilla;
     }
 
     public RestCine getIdCineid() {

@@ -15,21 +15,22 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
-import ues.proto.cinepolis.definiciones.RestDetallereserva;
+import ues.proto.cinepolis.definiciones.RestTipoproyeccion;
 import static ues.proto.cinepolis.rest.GenericURL.BASE_URI;
 
-@Named(value = "detalleReservaClient")
+
+@Named(value = "tipoReservaClient")
 @ViewScoped
-public class DetalleReservaClient extends GenericURL implements Serializable{
+public class TipoProyeccionClient extends GenericURL implements Serializable{
     
-    private final static String UrlResource = BASE_URI + "detalleReserva/";
+    private final static String UrlResource = BASE_URI + "tipoReserva/";
     private Client cliente;
-    private RestDetallereserva claseEntity;
+    private RestTipoproyeccion tiporeservaEntity;
     
     /*--- LLENAR UNA TABLA A UTILIZAR --*/
-    List<RestDetallereserva> lista;
-
-    public DetalleReservaClient() {
+    List<RestTipoproyeccion> listaReserva;
+    
+    public TipoProyeccionClient() {
         try {
             cliente = ClientBuilder.newClient();
         } catch (Exception e) {
@@ -43,7 +44,7 @@ public class DetalleReservaClient extends GenericURL implements Serializable{
      */
     @PostConstruct
     public void init() {
-        this.claseEntity = new RestDetallereserva();
+        this.tiporeservaEntity = new RestTipoproyeccion();
         //findAll();
         llenarTabla();
     }
@@ -51,10 +52,10 @@ public class DetalleReservaClient extends GenericURL implements Serializable{
     public void llenarTabla() {
         //reset(); DEBERIA POR VOLVER A LLENAR
         try {
-            lista = cliente
+            listaReserva = cliente
                     .target(UrlResource)
                     .request(MediaType.APPLICATION_JSON)
-                    .get(new GenericType<List<RestDetallereserva>>() {
+                    .get(new GenericType<List<RestTipoproyeccion>>() {
                     });
         } catch (Exception e) {
             System.err.println("No se puede llenar la tabla revisa ---------------------*****-------");
@@ -66,11 +67,11 @@ public class DetalleReservaClient extends GenericURL implements Serializable{
      * Este metodo sirve para llenar la lista que se ocupara en la vista.
      */
     @Deprecated
-    public List<RestDetallereserva> findAll() {
-        List<RestDetallereserva> salida = null;
+    public List<RestTipoproyeccion> findAll() {
+        List<RestTipoproyeccion> salida = null;
         try {
             WebTarget target = cliente.target(UrlResource);
-            salida = target.request(MediaType.APPLICATION_JSON).get(new GenericType<List<RestDetallereserva>>() {
+            salida = target.request(MediaType.APPLICATION_JSON).get(new GenericType<List<RestTipoproyeccion>>() {
             });
         } catch (Exception e) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
@@ -82,12 +83,12 @@ public class DetalleReservaClient extends GenericURL implements Serializable{
         return salida;
     }
 
-    public List<RestDetallereserva> findRange(int first, int pageSize) {
-        List<RestDetallereserva> salida = null;
+    public List<RestTipoproyeccion> findRange(int first, int pageSize) {
+        List<RestTipoproyeccion> salida = null;
         try {
             WebTarget target = cliente.target(UrlResource).queryParam("first", first)
                     .queryParam("pagezise", pageSize);
-            salida = target.request(MediaType.APPLICATION_JSON).get(new GenericType<List<RestDetallereserva>>() {
+            salida = target.request(MediaType.APPLICATION_JSON).get(new GenericType<List<RestTipoproyeccion>>() {
             });
         } catch (Exception e) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
@@ -110,10 +111,10 @@ public class DetalleReservaClient extends GenericURL implements Serializable{
         return 0;
     }
     
-    public RestDetallereserva findById(Integer id){
+    public RestTipoproyeccion findById(Integer id){
         try {
             WebTarget target = cliente.target(UrlResource).path("{id}").resolveTemplate("id", id);
-            RestDetallereserva salida = target.request(MediaType.APPLICATION_JSON).get(RestDetallereserva.class);
+            RestTipoproyeccion salida = target.request(MediaType.APPLICATION_JSON).get(RestTipoproyeccion.class);
             return salida;
         } catch (Exception e) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
@@ -121,13 +122,13 @@ public class DetalleReservaClient extends GenericURL implements Serializable{
         return null;
     }
 
-    public RestDetallereserva crearRegistro() {
-        if (claseEntity != null && claseEntity.getAsiento() != null )  {
+    public RestTipoproyeccion crearRegistro() {
+        if (tiporeservaEntity != null && tiporeservaEntity.getId() != null )  {
             try {
-                RestDetallereserva salida = cliente.target(UrlResource)
+                RestTipoproyeccion salida = cliente.target(UrlResource)
                         .path("crear")
                         .request(MediaType.APPLICATION_JSON)
-                        .post(Entity.entity(claseEntity, MediaType.APPLICATION_JSON), RestDetallereserva.class);
+                        .post(Entity.entity(tiporeservaEntity, MediaType.APPLICATION_JSON), RestTipoproyeccion.class);
                 if (salida != null && salida.getId() != null ) {
                     return salida;
                 }
@@ -153,24 +154,20 @@ public class DetalleReservaClient extends GenericURL implements Serializable{
         return cliente;
     }
 
-    public void setCliente(Client cliente) {
-        this.cliente = cliente;
+    public RestTipoproyeccion getTiporeservaEntity() {
+        return tiporeservaEntity;
     }
 
-    public RestDetallereserva getClaseEntity() {
-        return claseEntity;
+    public void setTiporeservaEntity(RestTipoproyeccion tiporeservaEntity) {
+        this.tiporeservaEntity = tiporeservaEntity;
     }
 
-    public void setClaseEntity(RestDetallereserva claseEntity) {
-        this.claseEntity = claseEntity;
+    public List<RestTipoproyeccion> getListaReserva() {
+        return listaReserva;
     }
 
-    public List<RestDetallereserva> getLista() {
-        return lista;
-    }
-
-    public void setLista(List<RestDetallereserva> lista) {
-        this.lista = lista;
+    public void setListaReserva(List<RestTipoproyeccion> listaReserva) {
+        this.listaReserva = listaReserva;
     }
     
     
