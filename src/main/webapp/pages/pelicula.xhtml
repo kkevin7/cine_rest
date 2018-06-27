@@ -58,15 +58,14 @@
                             <div id="entradas">
 
                                 <h:form id="frmpago">
-
-                                    <p:growl id="growl" sticky="true" showDetail="true"/>
+                                    <p:growl id="msgs" showDetail="true" />  
 
                                     <p:wizard flowListener="#{wizardPrimefaces.onFlowProcess}">
-                                        <p:tab id="personal" title="SELECCIONA HORARIO">
+                                        <p:tab id="personal" title="SELECCIONA HORARIO" >
                                             <p:panel header="Selecciona el numero de entradas que deseas">
 
                                                 <p:messages />
-                                                <h:panelGrid columns="1" >
+                                                <h:panelGrid columns="1" styleClass="panel-centrado"  >
                                                     <h:outputLabel value="FECHA:" for="fecha" />
 
                                                     <p:calendar id="fecha"
@@ -108,44 +107,43 @@
                                         </p:tab>
 
                                         <p:tab title="HAZ TU PAGO" id="tabpago">
-                                            <p:panel header="has tu pago">
-                                                <h:panelGrid id="confirmation" columns="3" columnClasses="grid,grid,grid">
-                                                    <h:panelGrid columns="2" columnClasses="label, value">
-                                                        <p:outputLabel value="Nombre: " />
-                                                        <p:inputText value="#{clienteclient.clienteEntity.nombre}" styleClass="outputLabel" required="true"/>
+                                            <p:panel header="Reservar entradas">
+                                                
+                                                <p:panel header="Regristar un cliente">
+                                                <h:panelGrid style="margin: 0 auto;" columns="2" columnClasses="label, value">
+                                                    <p:outputLabel value="Nombre: " />
+                                                    <p:inputText value="#{clienteclient.clienteEntity.nombre}" styleClass="outputLabel" required="true"/>
 
-                                                        <p:outputLabel value="Apellido: " />
-                                                        <p:inputText value="#{clienteclient.clienteEntity.apellido}" styleClass="outputLabel" required="true" />
+                                                    <p:outputLabel value="Apellido: " />
+                                                    <p:inputText value="#{clienteclient.clienteEntity.apellido}" styleClass="outputLabel" required="true" />
 
-                                                        <p:outputLabel value="Numero de te telefono: " />
-                                                        <p:inputMask mask="9999-9999" value="#{clienteclient.clienteEntity.numTelefono}" styleClass="outputLabel" required="true"/>
+                                                    <p:outputLabel value="Numero de te telefono: " />
+                                                    <p:inputMask mask="99999999" value="#{clienteclient.clienteEntity.numTelefono}" styleClass="outputLabel" required="true"/>
 
-                                                        <p:outputLabel value="Correo: " />
-                                                        <p:inputText value="#{clienteclient.clienteEntity.correo}" styleClass="outputLabel" required="true"/>
+                                                    <p:outputLabel value="Correo: " />
+                                                    <p:inputText value="#{clienteclient.clienteEntity.correo}" styleClass="outputLabel" required="true"/>
 
-
-                                                        <p:outputLabel for="fechaNacimientoN" value="Fecha de Nacimiento: " />
-                                                        <p:calendar id="fechaNacimientoN"
-                                                                    size="10"
-                                                                    pattern="dd/MM/yyyy" 
-                                                                    effect="blind" navigator="true" showOn="button" yearRange="-100:+0"
-                                                                    value="#{clienteclient.clienteEntity.fechaNacimiento}"
-                                                                    >
-                                                            <f:convertDateTime pattern="dd/MM/yyyy" />
-                                                        </p:calendar>
-
-                                                        <p:commandButton  value="Registrar" 
-                                                                          icon="ui-icon-disk" 
-                                                                          actionListener="#{clienteclient.crearRegistro()}"
-                                                                          update=":frmpago"/>
-
-                                                    </h:panelGrid>
+                                                    <p:outputLabel for="fechaNacimientoN" value="Fecha de Nacimiento: " />
+                                                    <p:calendar id="fechaNacimientoN"
+                                                                size="15"
+                                                                pattern="dd-MM-yyyy" 
+                                                                effect="blind" navigator="true" showOn="button" yearRange="-100:+0"
+                                                                value="#{clienteclient.clienteEntity.fechaNacimiento}"
+                                                                >
+                                                        <f:convertDateTime pattern="dd-MM-yyyy" />
+                                                    </p:calendar>
 
                                                 </h:panelGrid>
 
-                                                <p:commandButton value="Submit"  update="growl" process="@this"/>
+                                                <p:commandButton  update="msgs" process=":frmpago"
+                                                                  value="Registrar" 
+                                                                  icon="ui-icon-disk" 
+                                                                  actionListener="#{clienteclient.crearRegistro()}"
+                                                                  />
                                             </p:panel>
+                                                </p:panel>
                                         </p:tab>
+
                                     </p:wizard>
 
                                 </h:form>

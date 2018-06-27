@@ -8,6 +8,10 @@ package ues.proto.cinepolis.definiciones;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -61,7 +65,7 @@ public class RestCliente implements Serializable {
     @NotNull
     @Column(nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private Date fechaNacimiento;
+    private String fechaNacimiento;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 254)
@@ -77,7 +81,7 @@ public class RestCliente implements Serializable {
         this.numTelefono = numTelefono;
     }
 
-    public RestCliente(String numTelefono, String nombre, String apellido, Date fechaNacimiento, String correo) {
+    public RestCliente(String numTelefono, String nombre, String apellido, String fechaNacimiento, String correo) {
         this.numTelefono = numTelefono;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -109,11 +113,23 @@ public class RestCliente implements Serializable {
         this.apellido = apellido;
     }
 
-    public Date getFechaNacimiento() {
+    public String getFechaNacimiento() {
+        //System.out.println("esta fecha entity---------> " + fechaNacimiento);
+        try {
+            DateFormat formatter1 = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy", Locale.US);
+            Date fecha = formatter1.parse(fechaNacimiento);
+            Timestamp ts = new Timestamp(fecha.getTime());
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            fechaNacimiento = formatter.format(ts);
+        } catch (Exception e) {
+            System.err.println("SE FUEEEEEE POR EL OTRO LADO");
+            fechaNacimiento = fechaNacimiento;
+        }
+
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(Date fechaNacimiento) {
+    public void setFechaNacimiento(String fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 
@@ -158,5 +174,5 @@ public class RestCliente implements Serializable {
     public String toString() {
         return "ues.proto.cinepolis.definiciones.RestCliente[ numTelefono=" + numTelefono + " ]";
     }
-    
+
 }

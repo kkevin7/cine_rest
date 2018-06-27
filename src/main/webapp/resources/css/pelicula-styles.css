@@ -52,3 +52,9 @@ div#contenido-peli{
 	width: 150px;
 }
 
+/***********************
+*/
+
+.panel-centrado{
+	margin: 0 auto;
+}

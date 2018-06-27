@@ -25,6 +25,7 @@ public class ClienteClient extends GenericURL implements Serializable {
     private final static String UrlResource = BASE_URI + "cliente/";
     private Client cliente;
     private RestCliente clienteEntity;
+    FrmMenssages mensaje = new FrmMenssages();
     
     /*--- LLENAR UNA TABLA A UTILIZAR --*/
     List<RestCliente> lista;
@@ -133,6 +134,7 @@ public class ClienteClient extends GenericURL implements Serializable {
                         .request(MediaType.APPLICATION_JSON)
                         .post(Entity.entity(clienteEntity, MediaType.APPLICATION_JSON), RestCliente.class);
                 if (salida != null && salida.getNumTelefono() != null ) {
+                    mensaje.msgCreadoExito();
                     return salida;
                 }
             } catch (Exception e) {

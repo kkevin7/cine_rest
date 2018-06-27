@@ -154,7 +154,6 @@ public class CineClient extends GenericURL implements Serializable {
         if (cineEntity != null && cineEntity.getNombre() != null )  {
             try {
                 RestCine salida = cliente.target(UrlResource)
-                        .path("crear")
                         .request(MediaType.APPLICATION_JSON)
                         .post(Entity.entity(cineEntity, MediaType.APPLICATION_JSON), RestCine.class);
                 if (salida != null && salida.getId() != null ) {
