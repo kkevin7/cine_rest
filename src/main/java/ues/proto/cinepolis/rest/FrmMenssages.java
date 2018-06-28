@@ -11,4 +11,7 @@ public class FrmMenssages {
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
     
+    public void msgNosecontrocliente() {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "No se contro el cliente"));
+    }
 }

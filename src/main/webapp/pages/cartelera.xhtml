@@ -6,12 +6,17 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
-    <h:head>
+    
+    <f:view>
+        <h:head>
+            <f:metadata>
+                <f:viewParam name="idCine" value="#{peliculaclient.idCine}"/>
+            </f:metadata>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title></title>
         <meta name="keywords" content="" />
         <meta name="description" content="" />
-
+        
     </h:head>
     <h:body>
 
@@ -63,13 +68,15 @@
                                                 </p:outputPanel>
                                                 
                                                 <h:panelGrid>
-                                                    <p:outputLabel value="DOBLADA" for="btn-funcion"/>
-                                                <!--label for="13:00" style="color: black;">DOBLADA</label>-->
-                                                <p:commandButton id="btn-funcion" value="13:00" 
+                                                   <!-- <p:outputLabel value="DOBLADA" for="btn-funcion"/> -->
+                                              
+                                                <p:commandButton id="btn-funcion" value="ver" 
                                                                
-                                                               actionListener="#{peliculaclient.llenarPelicula(pelicula.id)}"
-                                                               onclick="window.location.href = 'pelicula.jsf'"
-                                                               />
+                                                                 actionListener="#{peliculaclient.llenarListaUnica((pelicula.id))}"
+                                                                 onclick="window.location.href = 'pelicula.jsf?idPelicula=#{pelicula.id}&amp;idCine=#{peliculaclient.cineEntity.id}'"
+                                                                 >
+                                                 <f:param name="idPelicula" value="#{pelicula.id}"/>
+                                                </p:commandButton>
                                             <!--<button type="button" id="13:00" onclick="window.location.href = 'pelicula.jsf'">13:00</button>-->
                                             </h:panelGrid>
                                             </h:panelGrid>
@@ -95,4 +102,5 @@
 
 
     </h:body>
+        </f:view>
 </html>

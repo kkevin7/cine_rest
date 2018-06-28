@@ -19,7 +19,7 @@ import ues.proto.cinepolis.definiciones.RestReserva;
 import static ues.proto.cinepolis.rest.GenericURL.BASE_URI;
 
 
-@Named(value = "reservaClient")
+@Named(value = "reservaclient")
 @ViewScoped
 public class ReservaClient extends GenericURL implements Serializable{
 
@@ -29,6 +29,9 @@ public class ReservaClient extends GenericURL implements Serializable{
     
     /*--- LLENAR UNA TABLA A UTILIZAR --*/
     List<RestReserva> listaReserva;
+    
+    /*--- variables ----*/
+    private int idPelicula;
     
     public ReservaClient() {
         try {
@@ -47,6 +50,7 @@ public class ReservaClient extends GenericURL implements Serializable{
         this.reservaEntity = new RestReserva();
         //findAll();
         llenarTabla();
+        System.err.println("ID PELICULA reserva----->"+idPelicula);
     }
     
     public void llenarTabla() {
@@ -172,6 +176,15 @@ public class ReservaClient extends GenericURL implements Serializable{
 
     public void setListaReserva(List<RestReserva> listaReserva) {
         this.listaReserva = listaReserva;
+    }
+
+    public int getIdPelicula() {
+         System.err.println("ID PELICULA algo serva ----->"+idPelicula);
+        return idPelicula;
+    }
+
+    public void setIdPelicula(int idPelicula) {
+        this.idPelicula = idPelicula;
     }
     
     

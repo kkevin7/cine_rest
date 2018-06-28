@@ -52,10 +52,13 @@ public class CineClient extends GenericURL implements Serializable {
     
     public void llenarLocal(){
         try {
-             System.out.println("/*** este es el ID del cine " + idCinelocal);
-            cineEntity = findById(idCinelocal);
+            cineEntity = findById(cineEntity.getId());
             localidad = cineEntity.getLocalidad();
-             System.out.println("/****--localidad del cine ***/ " + localidad);
+            idCinelocal = cineEntity.getId();
+            
+            setCineEntity(cineEntity);
+            System.err.println("Esteeeeee el idCine-----> "+cineEntity.getId());
+            
         } catch (Exception e) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
         }
