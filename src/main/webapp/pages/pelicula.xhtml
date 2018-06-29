@@ -38,7 +38,7 @@
 
                                         <h:form> 
                                             <h:panelGrid columns="2" style="width:100%;" columnClasses="logo,detail,funcion">
-                                                <p:graphicImage class="img-peli-desc" url="../resources/img/#{peliculaclient.idPeliculaLocal}.jpg" /> 
+                                                <p:graphicImage class="img-peli-desc" url="../resources/img/#{peliculaclient.nombreLocal}.jpg" /> 
                                                 <p:outputPanel>
                                                     <h:panelGrid columns="2" cellpadding="5">
                                                         <h:outputText value="Id:" />
@@ -48,7 +48,7 @@
                                                         <h:outputText value="#{peliculaclient.nombreLocal}" style="font-weight: bold"/>
 
                                                         <h:outputText value="Duración:" />
-                                                        <h:outputText value="#{peliculaclient.idPeliculaLocal}" style="font-weight: bold"/>
+                                                        <h:outputText value="#{peliculaclient.duracionLocal}" style="font-weight: bold"/>
 
                                                         <!-- <h:outputText value="Genero:" />
                                                          <h:outputText value="#{pelicula.idGeneroid}" style="font-weight: bold"/>-->
@@ -145,7 +145,7 @@
                                                 </p:panel>
                                             </p:tab>
 
-                                            <p:tab title="HAZ TU PAGO" id="tabcliente">
+                                            <p:tab title="HAZ TU RESERVA" id="tabcliente">
                                                 <p:panel id="panel-cliente" header="Reservar entradas" style="height: 350px;">
 
                                                     <p:panel id="panel-buscar" header="Realizar la reservación">
