@@ -5,155 +5,214 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <f:view>
-    <h:head>
-        <f:metadata>
-            <f:viewParam name="idPelicula" value="#{peliculaclient.idPelicula}"/>
+        <h:head>
+            <f:metadata>
+                <f:viewParam name="idPelicula" value="#{peliculaclient.idPelicula}"/>
             </f:metadata>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title></title>
-        <meta name="keywords" content="" />
-        <meta name="description" content="" />
-    </h:head>
-    <h:body>
+            <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+            <title></title>
+            <meta name="keywords" content="" />
+            <meta name="description" content="" />
+        </h:head>
+        <h:body>
 
-        <ui:composition template="../templates/main_template.xhtml">
-            <ui:define name="content">
+            <ui:composition template="../templates/main_template.xhtml">
+                <ui:define name="content">
 
-                <link href="http://fonts.googleapis.com/css?family=Varela" rel="stylesheet" />
-                <link href="../resources/css/cartelera-styles.css" rel="stylesheet" type="text/css" media="all" />
-                <link href="../resources/css/pelicula-styles.css" rel="stylesheet" type="text/css" media="all" />
-                <link href="../resources/css/fonts.css" rel="stylesheet" type="text/css" media="all" />
+                    <link href="http://fonts.googleapis.com/css?family=Varela" rel="stylesheet" />
+                    <link href="../resources/css/cartelera-styles.css" rel="stylesheet" type="text/css" media="all" />
+                    <link href="../resources/css/pelicula-styles.css" rel="stylesheet" type="text/css" media="all" />
+                    <link href="../resources/css/fonts.css" rel="stylesheet" type="text/css" media="all" />
 
-                <div id="ideas">
-                    <div class="container">
-                        <div id="panel-central">
-                            <div id="peli-descripcion">
-                                <div>
-                                    <h2 style="color: rgb(0,9,124, 0.9);">COMPRA Y RESERVA TUS BOLETOS</h2>
+                    <div id="ideas">
+                        <div class="container">
+                            <div id="panel-central">
+                                <div id="peli-descripcion">
+                                    <div>
+                                        <h2 style="color: rgb(0,9,124, 0.9);">COMPRA Y RESERVA TUS BOLETOS</h2>
+                                    </div>
+                                    <div id="contenido-peli">
+
+                                        <h:form> 
+                                            <h:panelGrid columns="2" style="width:100%;" columnClasses="logo,detail,funcion">
+                                                <p:graphicImage class="img-peli-desc" url="../resources/img/#{peliculaclient.idPeliculaLocal}.jpg" /> 
+                                                <p:outputPanel>
+                                                    <h:panelGrid columns="2" cellpadding="5">
+                                                        <h:outputText value="Id:" />
+                                                        <h:outputText value="#{peliculaclient.idPeliculaLocal}" style="font-weight: bold"/>
+
+                                                        <h:outputText value="Pelicula:" />
+                                                        <h:outputText value="#{peliculaclient.nombreLocal}" style="font-weight: bold"/>
+
+                                                        <h:outputText value="Duración:" />
+                                                        <h:outputText value="#{peliculaclient.idPeliculaLocal}" style="font-weight: bold"/>
+
+                                                        <!-- <h:outputText value="Genero:" />
+                                                         <h:outputText value="#{pelicula.idGeneroid}" style="font-weight: bold"/>-->
+                                                    </h:panelGrid>
+                                                </p:outputPanel>
+                                            </h:panelGrid>
+                                        </h:form>
+
+
+                                    </div>
                                 </div>
-                                <div id="contenido-peli">
+                                <div id="entradas">
 
-                                    <h:form> 
-                                        <h:panelGrid columns="2" style="width:100%;" columnClasses="logo,detail,funcion">
-                                            <p:graphicImage class="img-peli-desc" url="../resources/img/#{peliculaclient.idPeliculaLocal}.jpg" /> 
-                                            <p:outputPanel>
-                                                <h:panelGrid columns="2" cellpadding="5">
-                                                    <h:outputText value="Id:" />
-                                                    <h:outputText value="#{peliculaclient.idPeliculaLocal}" style="font-weight: bold"/>
+                                    <h:form id="frmpago">
+                                        <p:growl id="msgs" showDetail="true" />  
 
-                                                    <h:outputText value="Pelicula:" />
-                                                    <h:outputText value="#{peliculaclient.nombreLocal}" style="font-weight: bold"/>
+                                        <p:wizard id="tabwizard" flowListener="#{wizardPrimefaces.onFlowProcess}">
+                                            <p:tab id="personal" title="SELECCIONA HORARIO" >
+                                                <p:panel header="Selecciona el numero de entradas que deseas">
 
-                                                    <h:outputText value="Duración:" />
-                                                    <h:outputText value="#{peliculaclient.idPeliculaLocal}" style="font-weight: bold"/>
-
-                                                    <!-- <h:outputText value="Genero:" />
-                                                     <h:outputText value="#{pelicula.idGeneroid}" style="font-weight: bold"/>-->
-                                                </h:panelGrid>
-                                            </p:outputPanel>
-                                        </h:panelGrid>
-                                    </h:form>
-
-
-                                </div>
-                            </div>
-                            <div id="entradas">
-
-                                <h:form id="frmpago">
-                                    <p:growl id="msgs" showDetail="true" />  
-
-                                    <p:wizard id="tabwizard" flowListener="#{wizardPrimefaces.onFlowProcess}">
-                                        <p:tab id="personal" title="SELECCIONA HORARIO" >
-                                            <p:panel header="Selecciona el numero de entradas que deseas">
-
-                                                <p:messages />
-                                                <h:panelGrid columns="1" styleClass="panel-centrado"  >
-                                                    <h:outputLabel value="FECHA:" for="fecha" />
-
-                                                    <p:calendar id="fecha"
-                                                                mask="true"
-                                                                size="10"
-                                                                pattern="dd/MM/yyyy" 
-                                                                effect="blind" navigator="true" showOn="button" yearRange="-0:+100"
-                                                                value="#{proyeccionclient.proyeccionEntity.fecha}"
-                                                                title="Fecha Inicio"
-                                                                >
-                                                        <f:convertDateTime pattern="dd/MM/yyyy" />
-                                                    </p:calendar>
-
-                                                    <h:outputLabel value="HORA :" for="hora1"/>
-                                                    <p:selectOneMenu id="hora1"  value="#{proyeccionclient.proyeccionEntity.idProyeccion}" effect="fold" converter="omnifaces.SelectItemsConverter">
-                                                        <f:selectItems  value="#{proyeccionclient.listaProyeccion}" var="id" itemLabel="#{id.fecha}" itemValue="#{id.idProyeccion}" />
-                                                    </p:selectOneMenu>
-
-
-                                                </h:panelGrid>
-                                            </p:panel>
-                                        </p:tab>
-
-                                        <p:tab id="contact" title="ESCOGE TU LUGAR">
-                                            <p:panel header="Selecciona el aciento que desees">
-                                                <p:messages />
-
-                                                <p:dataTable var="car" 
-                                                             value="#{listaButacas.al}"
-
-                                                             >
-                                                    <p:column headerText="Id">
-                                                        <h:outputText value="#{car}" />
-                                                    </p:column>
-
-                                                </p:dataTable>
-
-                                            </p:panel>
-                                        </p:tab>
-
-                                        <p:tab title="HAZ TU PAGO" id="tabcliente">
-                                            <p:panel id="panel-cliente" header="Reservar entradas">
-
-                                                <p:panel id="panel-buscar" header="Realizar la reservación">
-                                                    <h:panelGrid id="panel-panel" columns="1" class="panel-centrado">
-                                                        <h:panelGrid id="grid-buscar" columns="2" >
-                                                            <h:panelGrid columns="1">
-                                                                <p:outputLabel id="act1" value="Introduzca el numero Numero de te telefono: " />
-                                                                <p:inputMask mask="99999999" value="#{clienteclient.numTelefonoLocal}" styleClass="outputLabel"/>
+                                                    <p:messages />
+                                                    <h:panelGrid id="grib-peli" columns="1" styleClass="panel-centrado" style="height:200px;"  >
+                                                        <!--
+                                                        <h:outputLabel value="FECHA:" for="fecha" />
+                                                        <p:calendar id="fecha"
+                                                                    mask="true"
+                                                                    size="10"
+                                                                    pattern="dd/MM/yyyy" 
+                                                                    effect="blind" navigator="true" showOn="button" yearRange="-0:+100"
+                                                                    value="#{proyeccionclient.proyeccionEntity.fecha}"
+                                                                    title="Fecha Inicio"
+                                                                    >
+                                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                                        </p:calendar>
+                                                        -->
+                                                        
+                                                        <h:panelGrid columns="2" >
+                                                            <h:panelGrid columns="2">
+                                                        <p:outputLabel value="FECHA Y HORA :" for="hora1"/>
+                                                        <p:selectOneMenu id="hora1"  value="#{reservaclient.idProyeccionLocal}" effect="fold" converter="omnifaces.SelectItemsConverter">
+                                                            <f:selectItems  value="#{proyeccionclient.listaProyeccion}" var="id" itemLabel="#{id.fecha}" itemValue="#{id.idProyeccion}" />
+                                                            <p:ajax event="change" update=":frmpago" listener="#{reservaclient.obtenerIdPelicula(reservaclient.idProyeccionLocal)}"/>
+                                                        </p:selectOneMenu>
+                                                        
+                                                        </h:panelGrid>
+                                                            <h:panelGrid columns="2">
+                                                                <p:outputLabel value="id Pelicula :" for="idpelicula"/>
+                                                                <p:outputLabel id="idpelicula" value="#{reservaclient.idPeliculaSelect}"  />
+                                                                
+                                                                <h:outputText value="Pelicula:" />
+                                                                <h:outputText value="#{reservaclient.peliculaSelect}" style="font-weight: bold"/>
+                                                                
+                                                                
                                                                 
                                                             </h:panelGrid>
-                                                            <h:panelGrid id="grid-mostrar" columns="2">
-                                                                <p:outputLabel value="Cliente: " />
-                                                                <p:inputText value="#{clienteclient.clienteEntity.nombre} " size="25" readonly="true" styleClass="outputLabel" />
-                                                                 <p:outputLabel value="Apellido: " />
-                                                                <p:inputText value="#{clienteclient.clienteEntity.apellido}" size="25" readonly="true" styleClass="outputLabel" />
-                                                            </h:panelGrid>
                                                         </h:panelGrid>
-                                                        
-                                                    </h:panelGrid>
-                                                    <h:panelGrid columns="1" class="panel-centrado">
-                                                            <p:commandButton  update=":frmpago:"
-                                                                                  value="Buscar cliente" 
-                                                                                  icon="ui-icon-disk" 
-                                                                                  actionListener="#{clienteclient.buscarCliente(clienteclient.numTelefonoLocal)}"
 
-                                                                                  />
+                                                    </h:panelGrid>
+                                                </p:panel>
+                                            </p:tab>
+
+                                            <p:tab id="contact" title="ESCOGE TU LUGAR">
+                                                <p:panel header="Selecciona el aciento que desees">
+                                                    <p:messages />
+
+                                                    <h:panelGrid columns="2">
+                                                        <h:panelGrid id="division1" columns="1" >
+                                                            <h:outputLabel value="Butacas Ocupadas" />
+                                                            <p:dataTable var="butacas" 
+                                                                         value="#{reservaclient.listaReserva}"
+                                                                         paginator="true"
+                                                                         rows="10"
+                                                                         rowsPerPageTemplate="10,15,20"
+                                                                         paginatorPosition="bottom"
+                                                                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                                         >
+                                                                <p:column headerText="Filas">
+                                                                    <h:outputText value="#{butacas.fila}" />
+                                                                </p:column>
+                                                                <p:column headerText="Columnas">
+                                                                    <h:outputText value="#{butacas.columna}" />
+                                                                </p:column>
+
+                                                            </p:dataTable>
+                                                        </h:panelGrid>
+                                                        <h:panelGrid id="division2" columns="2" style="margin: 0 auto; width: 300px;">
+                                                            <p:outputLabel value="FILA" for="r-fila" />
+                                                            <p:inputText id="r-fila" value="#{reservaclient.reservaEntity.fila}" rendered="true"/>
+                                                            <p:outputLabel value="COLUMNA" for="r-colum" />
+                                                            <p:inputText id="r-colum" value="#{reservaclient.reservaEntity.columna}" required="true"/>
+                                                        </h:panelGrid>
+                                                    </h:panelGrid>
+
+                                                </p:panel>
+                                            </p:tab>
+
+                                            <p:tab title="HAZ TU PAGO" id="tabcliente">
+                                                <p:panel id="panel-cliente" header="Reservar entradas" style="height: 350px;">
+
+                                                    <p:panel id="panel-buscar" header="Realizar la reservación">
+                                                        <h:panelGrid id="panel-panel" columns="1" class="panel-centrado" style="height: 120px;">
+                                                            <h:panelGrid id="grid-buscar" columns="2" >
+                                                                <h:panelGrid columns="1">
+                                                                    <p:outputLabel id="act1" value="Introduzca el numero Numero de te telefono: " />
+                                                                    <p:inputMask mask="99999999" value="#{clienteclient.numTelefonoLocal}" styleClass="outputLabel"/>
+
+                                                                </h:panelGrid>
+                                                                <h:panelGrid id="grid-mostrar" columns="2">
+                                                                    <p:outputLabel value="Cliente: " />
+                                                                    <p:inputText value="#{clienteclient.clienteEntity.nombre} " size="25" readonly="true" styleClass="outputLabel" />
+                                                                    <p:outputLabel value="Apellido: " />
+                                                                    <p:inputText value="#{clienteclient.clienteEntity.apellido}" size="25" readonly="true" styleClass="outputLabel" />
+                                                                </h:panelGrid>
+                                                            </h:panelGrid>
+
+                                                        </h:panelGrid>
+                                                        <h:panelGrid columns="1" class="panel-centrado" style="margin-bottom: 2%;">
+                                                            <p:outputLabel value="Buscar cliente " />
+                                                            <p:commandButton  update=":frmpago:"
+                                                                              value="Buscar cliente" 
+                                                                              icon="ui-icon-disk" 
+                                                                              actionListener="#{clienteclient.buscarCliente(clienteclient.numTelefonoLocal)}"
+                                                                              action="#{reservaclient.obtenerReservaNumtelefono(clienteclient.numTelefonoLocal)}"
+                                                                              />
+                                                        </h:panelGrid>
+                                                        <h:panelGrid columns="1" class="panel-centrado">
+                                                            
+                                                            <p:outputLabel value="Estado: " for="estado" />
+                                                            <p:inputText id="estado" value="#{reservaclient.reservaEntity.estado}"  required="true"/>
                                                             <p:outputLabel value="Guardar reservacion " />
                                                             <p:commandButton id="btn-reservar"  update=":frmpago:msgs :frmpago"
                                                                              value="Realizar reserva" 
                                                                              icon="ui-icon-disk" 
                                                                              style="margin-top: 2%; background: #fb6542; border-color: red"
 
-                                                                             />
-                                                            
-                                                        </h:panelGrid>
-                                                </p:panel>
+                                                                             >
+                                                                <p:confirm header="Hacer una reservacion" message="¿Está seguro? Asegurese de haber una hecho una busquede cliente primero" icon="ui-icon-alert" />
+                                                            </p:commandButton>
 
-                                                
-                                            </p:panel>
-                                        </p:tab>
-                                        
-                                        <p:tab id="clientes" title="REGISTRAR UN CLIENTE">
-                                            <p:panel id="panel-registro" header="Regristar un cliente" style="margin-top: 2%; margin-bottom: 2%">
+                                                            <p:confirmDialog global="true" 
+                                                                             severity="alert"
+                                                                             widgetVar="cd"
+                                                                             showEffect="fade" 
+                                                                             hideEffect="fade"
+                                                                             closeOnEscape="true"
+                                                                             >
+                                                                <p:commandButton value="Continuar"
+                                                                                 actionListener="#{reservaclient.crearRegistro()}" 
+                                                                                 icon="ui-icon-check" 
+                                                                                 update=":frmpago" 
+                                                                                 oncomplete="PF('cd').hide()"
+                                                                                 />
+                                                                <p:commandButton value="Cancelar" onclick="PF('cd').hide();" type="button"  icon="ui-icon-close" />
+                                                            </p:confirmDialog>
+
+                                                        </h:panelGrid>
+                                                    </p:panel>
+
+
+                                                </p:panel>
+                                            </p:tab>
+
+                                            <p:tab id="clientes" title="REGISTRAR UN CLIENTE">
+                                                <p:panel id="panel-registro" header="Regristar un cliente" style="margin-top: 2%; margin-bottom: 2%">
                                                     <h:panelGrid id="grid-registro" style="margin: 0 auto;" columns="2" columnClasses="label, value">
                                                         <p:outputLabel value="Nombre: " />
                                                         <p:inputText value="#{clienteclient.clienteEntity.nombre}" styleClass="outputLabel" required="true"/>
@@ -185,23 +244,23 @@
                                                                       actionListener="#{clienteclient.crearRegistro()}"
                                                                       />
                                                 </p:panel>
-                                            
-                                        </p:tab>
 
-                                    </p:wizard>
+                                            </p:tab>
 
-                                </h:form>
+                                        </p:wizard>
 
+                                    </h:form>
+
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-            </ui:define>
-        </ui:composition>
-        
-        
+                </ui:define>
+            </ui:composition>
 
-    </h:body>
-        </f:view>
+
+
+        </h:body>
+    </f:view>
 </html>

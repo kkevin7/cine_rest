@@ -1,4 +1,3 @@
-
 package ues.proto.cinepolis.rest;
 
 import java.io.Serializable;
@@ -18,15 +17,14 @@ import javax.ws.rs.core.MediaType;
 import ues.proto.cinepolis.definiciones.RestProyeccion;
 import static ues.proto.cinepolis.rest.GenericURL.BASE_URI;
 
-
 @Named(value = "proyeccionclient")
 @ViewScoped
 public class ProyeccionClient extends GenericURL implements Serializable {
-    
+
     private final static String UrlResource = BASE_URI + "proyeccion/";
     private Client cliente;
     private RestProyeccion proyeccionEntity;
-    
+
     /*--- LLENAR UNA TABLA A UTILIZAR --*/
     List<RestProyeccion> listaProyeccion;
 
@@ -37,7 +35,7 @@ public class ProyeccionClient extends GenericURL implements Serializable {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
         }
     }
-    
+
     /**
      * Este metodo sirve sirve para que se inicie todo despues de cargar los
      * form.
@@ -48,7 +46,16 @@ public class ProyeccionClient extends GenericURL implements Serializable {
         //findAll();
         llenarTabla();
     }
-    
+
+    public void obteneridPelicula(int valor) {
+        try {
+            setProyeccionEntity(findById(valor));
+            System.err.println("id proyeccion idpelicula------->" + proyeccionEntity.getIdPeliculaid());
+        } catch (Exception e) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
+        }
+    }
+
     public void llenarTabla() {
         //reset(); DEBERIA POR VOLVER A LLENAR
         try {
@@ -110,8 +117,8 @@ public class ProyeccionClient extends GenericURL implements Serializable {
         }
         return 0;
     }
-    
-    public RestProyeccion findById(Integer id){
+
+    public RestProyeccion findById(Integer id) {
         try {
             WebTarget target = cliente.target(UrlResource).path("{idProyeccion}").resolveTemplate("idProyeccion", id);
             RestProyeccion salida = target.request(MediaType.APPLICATION_JSON).get(RestProyeccion.class);
@@ -123,13 +130,13 @@ public class ProyeccionClient extends GenericURL implements Serializable {
     }
 
     public RestProyeccion crearRegistro() {
-        if (proyeccionEntity != null && proyeccionEntity.getIdProyeccion() != null )  {
+        if (proyeccionEntity != null && proyeccionEntity.getIdProyeccion() != null) {
             try {
                 RestProyeccion salida = cliente.target(UrlResource)
                         .path("crear")
                         .request(MediaType.APPLICATION_JSON)
                         .post(Entity.entity(proyeccionEntity, MediaType.APPLICATION_JSON), RestProyeccion.class);
-                if (salida != null && salida.getFecha() != null ) {
+                if (salida != null && salida.getFecha() != null) {
                     return salida;
                 }
             } catch (Exception e) {
@@ -174,7 +181,4 @@ public class ProyeccionClient extends GenericURL implements Serializable {
         this.listaProyeccion = listaProyeccion;
     }
 
-
-    
-    
 }

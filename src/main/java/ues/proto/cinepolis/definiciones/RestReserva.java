@@ -55,12 +55,8 @@ public class RestReserva implements Serializable {
     @NotNull
     @Column(nullable = false)
     private int fila;
-    @JoinColumn(name = "numTelefono_id", referencedColumnName = "numTelefono", nullable = false)
-    @ManyToOne(optional = false)
-    private RestCliente numTelefonoid;
-    @JoinColumn(name = "idProyeccion_id", referencedColumnName = "idProyeccion", nullable = false)
-    @ManyToOne(optional = false)
-    private RestProyeccion idProyeccionid;
+    private Integer numTelefonoid;
+    private Integer idProyeccionid;
 
     public RestReserva() {
     }
@@ -69,9 +65,11 @@ public class RestReserva implements Serializable {
         this.idReserva = idReserva;
     }
 
-    public RestReserva(Integer idReserva, String estado, int columna, int fila) {
+    public RestReserva(Integer idReserva, String estado, int numTelefonoid, int idProyeccionid, int columna, int fila ) {
         this.idReserva = idReserva;
         this.estado = estado;
+        this.numTelefonoid = numTelefonoid;
+        this.idProyeccionid = idProyeccionid;
         this.columna = columna;
         this.fila = fila;
     }
@@ -108,19 +106,19 @@ public class RestReserva implements Serializable {
         this.fila = fila;
     }
 
-    public RestCliente getNumTelefonoid() {
+    public Integer getNumTelefonoid() {
         return numTelefonoid;
     }
 
-    public void setNumTelefonoid(RestCliente numTelefonoid) {
+    public void setNumTelefonoid(Integer numTelefonoid) {
         this.numTelefonoid = numTelefonoid;
     }
 
-    public RestProyeccion getIdProyeccionid() {
+    public Integer getIdProyeccionid() {
         return idProyeccionid;
     }
 
-    public void setIdProyeccionid(RestProyeccion idProyeccionid) {
+    public void setIdProyeccionid(Integer idProyeccionid) {
         this.idProyeccionid = idProyeccionid;
     }
 

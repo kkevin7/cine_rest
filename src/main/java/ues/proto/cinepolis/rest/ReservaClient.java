@@ -1,4 +1,3 @@
-
 package ues.proto.cinepolis.rest;
 
 import java.io.Serializable;
@@ -15,23 +14,32 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
+import ues.proto.cinepolis.definiciones.RestPelicula;
+import ues.proto.cinepolis.definiciones.RestProyeccion;
 import ues.proto.cinepolis.definiciones.RestReserva;
 import static ues.proto.cinepolis.rest.GenericURL.BASE_URI;
 
-
 @Named(value = "reservaclient")
 @ViewScoped
-public class ReservaClient extends GenericURL implements Serializable{
-
+public class ReservaClient extends GenericURL implements Serializable {
+    
     private final static String UrlResource = BASE_URI + "reserva/";
     private Client cliente;
-    private RestReserva reservaEntity;
+    private RestReserva reservaEntity = new RestReserva();
+    private RestProyeccion proyeccionEntity = new RestProyeccion();
+    private RestPelicula peliculaEntity = new RestPelicula();
+    FrmMenssages mensaje = new FrmMenssages();
     
     /*--- LLENAR UNA TABLA A UTILIZAR --*/
     List<RestReserva> listaReserva;
+    List<RestProyeccion> listaProyeccion;
     
+    Integer idProyeccionLocal;
+
     /*--- variables ----*/
     private int idPelicula;
+    private int idPeliculaSelect;
+    private String peliculaSelect;
     
     public ReservaClient() {
         try {
@@ -40,7 +48,7 @@ public class ReservaClient extends GenericURL implements Serializable{
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
         }
     }
-    
+
     /**
      * Este metodo sirve sirve para que se inicie todo despues de cargar los
      * form.
@@ -50,7 +58,67 @@ public class ReservaClient extends GenericURL implements Serializable{
         this.reservaEntity = new RestReserva();
         //findAll();
         llenarTabla();
-        System.err.println("ID PELICULA reserva----->"+idPelicula);
+        llenarReserva();
+        //System.err.println("ID PELICULA reserva----->" + idPelicula);
+    }
+    
+    public void obtenerIdPelicula(int valor) {
+        try {
+            setProyeccionEntity(findByIdProyeccion(valor));
+            idPeliculaSelect = proyeccionEntity.getIdProyeccion();
+            setPeliculaEntity(findByIdPelicula(idPeliculaSelect));
+            peliculaSelect = peliculaEntity.getNombre();
+            //System.err.println("id proyeccion id------->" + proyeccionEntity.getIdProyeccion());
+        } catch (Exception e) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
+        }
+    }
+    
+    public RestProyeccion findByIdProyeccion(Integer id) {
+        try {
+            WebTarget target = cliente.target(BASE_URI + "proyeccion/").path("{idProyeccion}").resolveTemplate("idProyeccion", id);
+            RestProyeccion salida = target.request(MediaType.APPLICATION_JSON).get(RestProyeccion.class);
+            return salida;
+        } catch (Exception e) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
+        }
+        return null;
+    }
+    
+    public RestPelicula findByIdPelicula(Integer id) {
+        try {
+            WebTarget target = cliente.target(BASE_URI + "pelicula/").path("{id}").resolveTemplate("id", id);
+            RestPelicula salida = target.request(MediaType.APPLICATION_JSON).get(RestPelicula.class);
+            return salida;
+        } catch (Exception e) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
+        }
+        return null;
+    }
+        
+    
+    public void obtenerReservaNumtelefono(int valor) {
+        try {
+            reservaEntity.setNumTelefonoid(valor);
+            //System.err.println("id proyeccion neumerotel------->" + reservaEntity.getNumTelefonoid());
+        } catch (Exception e) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
+        }
+        
+    }
+    
+    public void llenarReserva() {
+        //reset(); DEBERIA POR VOLVER A LLENAR
+        try {
+            listaProyeccion = cliente
+                    .target(UrlResource)
+                    .request(MediaType.APPLICATION_JSON)
+                    .get(new GenericType<List<RestProyeccion>>() {
+                    });
+        } catch (Exception e) {
+            System.err.println("No se puede llenar la tabla revisa ---------------------*****-------");
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
+        }
     }
     
     public void llenarTabla() {
@@ -86,7 +154,7 @@ public class ReservaClient extends GenericURL implements Serializable{
         }
         return salida;
     }
-
+    
     public List<RestReserva> findRange(int first, int pageSize) {
         List<RestReserva> salida = null;
         try {
@@ -103,7 +171,7 @@ public class ReservaClient extends GenericURL implements Serializable{
         }
         return salida;
     }
-
+    
     public int count() {
         try {
             WebTarget target = cliente.target(UrlResource).path("count");
@@ -115,7 +183,7 @@ public class ReservaClient extends GenericURL implements Serializable{
         return 0;
     }
     
-    public RestReserva findById(Integer id){
+    public RestReserva findById(Integer id) {
         try {
             WebTarget target = cliente.target(UrlResource).path("{idReserva}").resolveTemplate("idReserva", id);
             RestReserva salida = target.request(MediaType.APPLICATION_JSON).get(RestReserva.class);
@@ -125,24 +193,61 @@ public class ReservaClient extends GenericURL implements Serializable{
         }
         return null;
     }
-
+    
     public RestReserva crearRegistro() {
-        if (reservaEntity != null && reservaEntity.getEstado() != null )  {
-            try {
-                RestReserva salida = cliente.target(UrlResource)
-                        .path("crear")
-                        .request(MediaType.APPLICATION_JSON)
-                        .post(Entity.entity(reservaEntity, MediaType.APPLICATION_JSON), RestReserva.class);
-                if (salida != null && salida.getEstado() != null ) {
-                    return salida;
+        /*
+        System.err.println("id proyeccion------->" + reservaEntity.getNumTelefonoid());
+        System.err.println("id proyeccion------->" + idProyeccionLocal);
+        reservaEntity.setIdProyeccionid(idProyeccionLocal);
+*/
+        reservaEntity.setEstado("Vendido");
+        reservaEntity.setIdProyeccionid(2);
+        reservaEntity.setNumTelefonoid(76566551);
+        reservaEntity.setFila(1);
+        reservaEntity.setColumna(1);
+        reservaEntity.setIdReserva(2);
+        
+        System.err.println("Estado reserva------->" + reservaEntity.getEstado());
+        System.err.println("idproyeccion reserva------->" + reservaEntity.getIdProyeccionid());
+        System.err.println("numtelefono------->" + reservaEntity.getNumTelefonoid());
+        System.err.println("columna------->" + reservaEntity.getColumna());
+        System.err.println("fila------->" + reservaEntity.getFila());
+        System.err.println("id reserva------->" + reservaEntity.getIdReserva());
+        
+        if (reservaEntity != null) {
+            if (reservaEntity.getFila() > 0 && reservaEntity.getColumna() > 0) {
+                if (reservaEntity.getNumTelefonoid() != null && reservaEntity.getIdProyeccionid() != null) {
+                    if (reservaEntity.getEstado() != null) {
+                        try {
+                            RestReserva salida = cliente.target(UrlResource)
+                                    .request(MediaType.APPLICATION_JSON)
+                                    .post(Entity.entity(reservaEntity, MediaType.APPLICATION_JSON), RestReserva.class);
+                            System.out.println("salida------->" + salida);
+                            if (salida != null && salida.getEstado() != null) {
+                                mensaje.msgCreadoExito();
+                                return salida;
+                            }
+                        } catch (Exception e) {
+                            Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
+                        }
+                    } else {
+                        mensaje.msgErrorEstado();
+                    }
+                } else {
+                    mensaje.msgErrorCliente();
+                    reservaEntity = new RestReserva();
                 }
-            } catch (Exception e) {
-                Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
+            } else {
+                mensaje.msgFilaColumna();
+                reservaEntity = new RestReserva();
             }
+        } else {
+            mensaje.msgErrorEntity();
+            reservaEntity = new RestReserva();
         }
         return null;
     }
-
+    
     @Override
     protected void finalize() throws Throwable {
         try {
@@ -153,38 +258,93 @@ public class ReservaClient extends GenericURL implements Serializable{
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
         }
     }
-
+    
     public Client getCliente() {
         return cliente;
     }
-
+    
     public void setCliente(Client cliente) {
         this.cliente = cliente;
     }
-
+    
     public RestReserva getReservaEntity() {
         return reservaEntity;
     }
-
+    
     public void setReservaEntity(RestReserva reservaEntity) {
         this.reservaEntity = reservaEntity;
     }
-
+    
     public List<RestReserva> getListaReserva() {
         return listaReserva;
     }
-
+    
     public void setListaReserva(List<RestReserva> listaReserva) {
         this.listaReserva = listaReserva;
     }
-
+    
     public int getIdPelicula() {
-         System.err.println("ID PELICULA algo serva ----->"+idPelicula);
         return idPelicula;
     }
-
+    
     public void setIdPelicula(int idPelicula) {
         this.idPelicula = idPelicula;
+    }
+    
+    public FrmMenssages getMensaje() {
+        return mensaje;
+    }
+    
+    public void setMensaje(FrmMenssages mensaje) {
+        this.mensaje = mensaje;
+    }
+    
+    public RestProyeccion getProyeccionEntity() {
+        return proyeccionEntity;
+    }
+    
+    public void setProyeccionEntity(RestProyeccion proyeccionEntity) {
+        this.proyeccionEntity = proyeccionEntity;
+    }
+    
+    public List<RestProyeccion> getListaProyeccion() {
+        return listaProyeccion;
+    }
+    
+    public void setListaProyeccion(List<RestProyeccion> listaProyeccion) {
+        this.listaProyeccion = listaProyeccion;
+    }
+    
+    public Integer getIdProyeccionLocal() {
+        return idProyeccionLocal;
+    }
+    
+    public void setIdProyeccionLocal(Integer idProyeccionLocal) {
+        this.idProyeccionLocal = idProyeccionLocal;
+    }
+
+    public int getIdPeliculaSelect() {
+        return idPeliculaSelect;
+    }
+
+    public void setIdPeliculaSelect(int idPeliculaSelect) {
+        this.idPeliculaSelect = idPeliculaSelect;
+    }
+
+    public String getPeliculaSelect() {
+        return peliculaSelect;
+    }
+
+    public void setPeliculaSelect(String peliculaSelect) {
+        this.peliculaSelect = peliculaSelect;
+    }
+
+    public RestPelicula getPeliculaEntity() {
+        return peliculaEntity;
+    }
+
+    public void setPeliculaEntity(RestPelicula peliculaEntity) {
+        this.peliculaEntity = peliculaEntity;
     }
     
     
