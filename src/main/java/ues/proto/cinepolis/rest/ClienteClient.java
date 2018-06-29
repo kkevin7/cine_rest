@@ -29,7 +29,7 @@ public class ClienteClient extends GenericURL implements Serializable {
     
     /*--- LLENAR UNA TABLA A UTILIZAR --*/
     List<RestCliente> lista;
-    private Integer numTelefonoLocal;
+    private String numTelefonoLocal;
 
     public ClienteClient() {
         try {
@@ -50,7 +50,7 @@ public class ClienteClient extends GenericURL implements Serializable {
         llenarTabla();
     }
     
-    public void buscarCliente(Integer numTelefono){
+    public void buscarCliente(String numTelefono){
         System.err.println("Numbero de telefono: ------> "+numTelefono);
         try {
             clienteEntity = findById(numTelefono);
@@ -123,7 +123,7 @@ public class ClienteClient extends GenericURL implements Serializable {
         return 0;
     }
     
-    public RestCliente findById(Integer id){
+    public RestCliente findById(String id){
         try {
             WebTarget target = cliente.target(UrlResource).path("{numTelefono}").resolveTemplate("numTelefono", id);
             RestCliente salida = target.request(MediaType.APPLICATION_JSON).get(RestCliente.class);
@@ -192,11 +192,11 @@ public class ClienteClient extends GenericURL implements Serializable {
         this.lista = lista;
     }
 
-    public Integer getNumTelefonoLocal() {
+    public String getNumTelefonoLocal() {
         return numTelefonoLocal;
     }
 
-    public void setNumTelefonoLocal(Integer numTelefonoLocal) {
+    public void setNumTelefonoLocal(String numTelefonoLocal) {
         this.numTelefonoLocal = numTelefonoLocal;
     }
     
