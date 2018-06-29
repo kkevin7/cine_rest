@@ -55,7 +55,7 @@ public class RestReserva implements Serializable {
     @NotNull
     @Column(nullable = false)
     private int fila;
-    private Integer numTelefonoid;
+    private String numTelefonoid;
     private Integer idProyeccionid;
 
     public RestReserva() {
@@ -65,7 +65,7 @@ public class RestReserva implements Serializable {
         this.idReserva = idReserva;
     }
 
-    public RestReserva(Integer idReserva, String estado, int numTelefonoid, int idProyeccionid, int columna, int fila ) {
+    public RestReserva(Integer idReserva, String estado, String numTelefonoid, int idProyeccionid, int columna, int fila ) {
         this.idReserva = idReserva;
         this.estado = estado;
         this.numTelefonoid = numTelefonoid;
@@ -106,11 +106,11 @@ public class RestReserva implements Serializable {
         this.fila = fila;
     }
 
-    public Integer getNumTelefonoid() {
+    public String getNumTelefonoid() {
         return numTelefonoid;
     }
 
-    public void setNumTelefonoid(Integer numTelefonoid) {
+    public void setNumTelefonoid(String numTelefonoid) {
         this.numTelefonoid = numTelefonoid;
     }
 
