@@ -74,6 +74,17 @@ public class PeliculaClient extends GenericURL implements Serializable {
         }
     }
     
+    public RestCine findByIdPelicula(Integer id){
+        try {
+            WebTarget target = cliente.target(BASE_URI + "cine/").path("{id}").resolveTemplate("id", id);
+            RestCine salida = target.request(MediaType.APPLICATION_JSON).get(RestCine.class);
+            return salida;
+        } catch (Exception e) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
+        }
+        return null;
+    }
+    
     public void llenarPelicula(int id) {
         try {
             peliculaEntity = findById(id);            
@@ -84,7 +95,7 @@ public class PeliculaClient extends GenericURL implements Serializable {
     
     public void llenarCine(int id) {
         try {
-            cineEntity = cineValor.findById(id);            
+            cineEntity = findByIdPelicula(id);            
             setCineEntity(cineEntity);
         } catch (Exception e) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, e.getMessage(), e);
